@@ -96,14 +96,14 @@ void can_enable(void)
 
         can_handle.Init.NominalPrescaler = prescaler; // 170mhz base clock
     	can_handle.Init.NominalSyncJumpWidth = 1;
-    	can_handle.Init.NominalTimeSeg1 = 14;
-    	can_handle.Init.NominalTimeSeg2 = 2;
+    	can_handle.Init.NominalTimeSeg1 = 12;
+    	can_handle.Init.NominalTimeSeg2 = 4;
         
         // FD only
         can_handle.Init.DataPrescaler = data_prescaler; // 2 for 5Mbit rate with 170 base clock
         can_handle.Init.DataSyncJumpWidth = 1;
-        can_handle.Init.DataTimeSeg1 = 14;
-        can_handle.Init.DataTimeSeg2 = 2;
+        can_handle.Init.DataTimeSeg1 = 12;
+        can_handle.Init.DataTimeSeg2 = 4;
         
         // For other bitrates with prescaler changes:
         // 2Mbits is same 14/2 with a prescalar of 5
@@ -185,13 +185,13 @@ void can_set_bitrate(enum can_bitrate bitrate)
         	prescaler = 1000;
             break;
         case CAN_BITRATE_20K:
-        	prescaler = 500;
+        	prescaler = 300; //Converted to 33kpbs GMLan SWCAN
             break;
         case CAN_BITRATE_50K:
         	prescaler = 200;
             break;
         case CAN_BITRATE_83_3K:
-        	prescaler = 120;
+        	prescaler = 105; //Converted to 95kpbs GMLan MSCAN
         	break;
         case CAN_BITRATE_100K:
             prescaler = 100;
@@ -203,7 +203,7 @@ void can_set_bitrate(enum can_bitrate bitrate)
             prescaler = 40;
             break;
         case CAN_BITRATE_500K:
-            prescaler = 20;
+            prescaler = 20; //Works perfectly with GMLan HSCAN
             break;
         case CAN_BITRATE_750K:
             prescaler = 7;// THIS IS VERY INACCURATE!!! FIXME

@@ -8,7 +8,6 @@
 # user configuration:
 #######################################
 
-
 # SOURCES: list of sources in the user application
 SOURCES = main.c system.c usbd_conf.c usbd_cdc_if.c usb_device.c usbd_desc.c interrupts.c system_stm32g4xx.c can.c slcan.c led.c error.c printf.c
 
@@ -16,7 +15,7 @@ SOURCES = main.c system.c usbd_conf.c usbd_cdc_if.c usb_device.c usbd_desc.c int
 GIT_VERSION := $(shell git describe --abbrev=7 --dirty --always --tags)
 
 # Get git remote URL. Use sed to strip off PAT (important!) and https:// 
-GIT_REMOTE := $(shell git config --get remote.origin.url | sed 's/^.*github/github/')
+GIT_REMOTE := $(shell git config --get remote.origin.url | sed "s/^.*github/github/")
 
 # TARGET: name of the user application
 TARGET = canable2-$(GIT_VERSION)
@@ -45,7 +44,7 @@ USER_CFLAGS += -DINTERNAL_OSCILLATOR
 endif
 
 # USER_LDFLAGS:  user LD flags
-USER_LDFLAGS = -fno-exceptions -ffunction-sections -fdata-sections -Wl,--gc-sections
+USER_LDFLAGS = -fno-exceptions -ffunction-sections -fdata-sections -Wl,--gc-sections -lnosys -specs=nosys.specs #no sys calls
 
 # TARGET_DEVICE: device to compile for
 TARGET_DEVICE = STM32G431xx
@@ -103,7 +102,8 @@ all: $(BUILD_DIR)/$(TARGET).bin $(BUILD_DIR)/$(TARGET).hex
 
 
 flash: all
-	sudo dfu-util -w -d 0483:df11 -c 1 -i 0 -a 0 -s 0x08000000:leave -D $(BUILD_DIR)/$(TARGET).bin
+	dfu-suffix -v 0483 -p df11 -a $(BUILD_DIR)/$(TARGET).bin
+	dfu-util -d 0483:df11 -c 1 -i 0 -a 0 -s 0x08000000 -D $(BUILD_DIR)/$(TARGET).bin
 
 
 #######################################

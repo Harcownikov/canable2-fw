@@ -10,6 +10,7 @@
 #include "slcan.h"
 #include "system.h"
 #include "led.h"
+#include "syscalls.c"
 
 
 int main(void)
