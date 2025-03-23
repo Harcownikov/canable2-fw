@@ -2,20 +2,22 @@
 
 This repository contains sources for the slcan CANable 2.0 firmware. This firmware implements non-standard slcan commands to support CANFD messaging alongside a LAWICEL-style command set.
 
+This particular repo is hard coded to work with 75% sample point (Automotive CAN)
+
 ## Supported Commands
 
 - `O` - Open channel 
 - `C` - Close channel 
 - `S0` - Set nominal bitrate to 10k
-- `S1` - Set nominal bitrate to 20k
+- `S1` - Set nominal bitrate to 20k //GMLAN 33kpbs in my repo (SWCAN)
 - `S2` - Set nominal bitrate to 50k
 - `S3` - Set nominal bitrate to 100k
 - `S4` - Set nominal bitrate to 125k
 - `S5` - Set nominal bitrate to 250k
-- `S6` - Set nominal bitrate to 500k
+- `S6` - Set nominal bitrate to 500k //GMLAN - unchanged, works perfectly with HSCAN
 - `S7` - Set nominal bitrate to 750k
 - `S8` - Set nominal bitrate to 1M
-- `S9` - Set nominal bitrate to 83.3k
+- `S9` - Set nominal bitrate to 83.3k //GMLAN 95kpbs in my repo (MSCAN)
 - `Y2` - Set data bitrate to 2M (CANFD only) (default)
 - `Y5` - Set data bitrate to 5M (CANFD only)
 - `M0` - Set mode to normal mode (default)
